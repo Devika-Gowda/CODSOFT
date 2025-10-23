@@ -1,0 +1,70 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #bbc10def, #d02f97);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: rgba(68, 6, 106, 0.2);
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(51, 1, 31, 0.2);
+    backdrop-filter: blur(8px);
+    width: 350px;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+label {
+    color: #fff;
+    font-size: 16px;
+}
+
+input[type="number"], input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: center;
+}
+
+button {
+    background: #00c896;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #00a67c;
+}
+
+.password-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.password-box input {
+    width: 70%;
+}
+
+h3 {
+    color: #fff;
+    margin-top: 25px;
+}
