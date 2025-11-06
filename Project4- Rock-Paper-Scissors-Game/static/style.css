@@ -1,0 +1,98 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg,#9df9ef,#f75691,#ffa8B6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    width: 420px;
+}
+
+h1 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+p, h3 {
+    color: white;
+}
+
+input {
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    width: 120px;
+    text-align: center;
+}
+
+button {
+    background: #00c896;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #00a67c;
+    transform: scale(1.05);
+}
+
+.result-box {
+    background: rgba(255,255,255,0.3);
+    border-radius: 10px;
+    padding: 15px;
+    color: white;
+    margin-top: 20px;
+}
+
+.progress-container {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.progress-container p {
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.progress-bar {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    height: 20px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress {
+    height: 100%;
+    width: 0%;
+    background: #4CAF50;
+    transition: width 0.5s ease;
+}
+
+.progress.computer {
+    background: #ff6961;
+}
+
+#final-winner {
+    font-size: 22px;
+    color: gold;
+    margin-top: 15px;
+    text-shadow: 0 0 5px black;
+}

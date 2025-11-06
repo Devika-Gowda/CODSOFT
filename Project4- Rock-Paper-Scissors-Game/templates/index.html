@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>✊✋✌️ Rock-Paper-Scissors</h1>
+
+        <!-- Step 1: Choose Target Score -->
+        <div id="setup-box">
+            <p>Enter your target score to start:</p>
+            <input type="number" id="target-score" placeholder="e.g. 5">
+            <button onclick="setTarget()">Start Game</button>
+        </div>
+
+        <!-- Step 2: Game Area -->
+        <div id="game-box" style="display: none;">
+            <h3 id="target-display"></h3>
+
+            <div class="buttons">
+                <button onclick="playGame('rock')">🪨 Rock</button>
+                <button onclick="playGame('paper')">📄 Paper</button>
+                <button onclick="playGame('scissors')">✂️ Scissors</button>
+            </div>
+
+            <div class="result-box">
+                <p id="user-choice">Your Choice:</p>
+                <p id="computer-choice">Computer's Choice:</p>
+                <p id="result">Result:</p>
+                <p id="score">Score: You 0 - 0 Computer</p>
+
+                <!-- Progress Bars -->
+                <div class="progress-container">
+                    <div>
+                        <p>User Progress</p>
+                        <div class="progress-bar">
+                            <div id="user-progress" class="progress"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Computer Progress</p>
+                        <div class="progress-bar">
+                            <div id="computer-progress" class="progress computer"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 id="final-winner"></h3>
+                <button id="reset-btn" onclick="resetGame()" style="display:none;">🔁 Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setTarget() {
+            const target = document.getElementById("target-score").value;
+            if (!target || target <= 0) {
+                alert("Please enter a valid target score!");
+                return;
+            }
+
+            fetch('/set_target', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target: target })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("setup-box").style.display = "none";
+                document.getElementById("game-box").style.display = "block";
+                document.getElementById("target-display").innerText = `🎯 Target Score: ${target}`;
+            });
+        }
+
+        function playGame(choice) {
+            fetch('/play', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ choice: choice })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('user-choice').innerText = `Your Choice: ${data.user_choice.toUpperCase()}`;
+                document.getElementById('computer-choice').innerText = `Computer’s Choice: ${data.computer_choice.toUpperCase()}`;
+
+                let resultText = "";
+                if (data.result === "user") resultText = "You Win 🎉";
+                else if (data.result === "computer") resultText = "Computer Wins 💻";
+                else resultText = "It's a Tie 🤝";
+                document.getElementById('result').innerText = `Result: ${resultText}`;
+
+                document.getElementById('score').innerText = 
+                    `Score: You ${data.score.user} - ${data.score.computer} Computer`;
+
+                // Update progress bars
+                const target = parseInt(document.getElementById("target-score").value);
+                const userPercent = (data.score.user / target) * 100;
+                const computerPercent = (data.score.computer / target) * 100;
+
+                document.getElementById("user-progress").style.width = `${userPercent}%`;
+                document.getElementById("computer-progress").style.width = `${computerPercent}%`;
+
+                // Check final winner
+                if (data.final_winner) {
+                    document.getElementById('final-winner').innerText = 
+                        `${data.final_winner} wins the game! 🏆`;
+                    document.querySelectorAll('.buttons button').forEach(btn => btn.disabled = true);
+                    document.getElementById('reset-btn').style.display = "block";
+                }
+            });
+        }
+
+        function resetGame() {
+            fetch('/reset', { method: 'POST' })
+            .then(() => {
+                document.getElementById("setup-box").style.display = "block";
+                document.getElementById("game-box").style.display = "none";
+                document.getElementById("reset-btn").style.display = "none";
+                document.querySelectorAll('.buttons button').forEach(btn => btn.disabled = false);
+                document.getElementById('final-winner').innerText = "";
+                document.getElementById("target-score").value = "";
+                document.getElementById("user-progress").style.width = "0%";
+                document.getElementById("computer-progress").style.width = "0%";
+            });
+        }
+    </script>
+</body>
+</html>
