@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Contact Book</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📒 Contact Book</h1>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/add">Add Contact</a>
+            <a href="/search">Search</a>
+        </nav>
+
+        <h2>All Contacts</h2>
+
+        {% if contacts %}
+        <ul>
+            {% for contact in contacts %}
+            <li>
+                <strong>{{ contact.name }}</strong> - {{ contact.phone }}<br>
+                Email: {{ contact.email }}<br>
+                Address: {{ contact.address }}<br><br>
+                <a href="/update/{{ contact.id }}">Update</a> |
+                <a href="/delete/{{ contact.id }}" onclick="return confirm('Are you sure?')">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p style="text-align:center;font-weight:600;color:#666;">No contacts added yet 👀</p>
+        {% endif %}
+
+    </div>
+</body>
+</html>
